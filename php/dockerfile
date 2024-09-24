@@ -1,0 +1,12 @@
+# apache入りのphpをインストール
+FROM php:7.2-apache
+
+# インストール可能パッケージ一覧の更新、PHP標準拡張インストローラー、sql接続のためのやつ(2つのうちどっちでもいい)、マルチバイト対応のなにか
+RUN apt-get update \
+  && docker-php-ext-install pdo_mysql mysqli mbstring
+
+# お決まりの位置らしい
+WORKDIR /var/www/html
+
+# コンテナのポート、ホストOS側のは指定していない
+EXPOSE 80

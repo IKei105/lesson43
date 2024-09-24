@@ -1,0 +1,26 @@
+# qiitaに書いてあった環境構築、ボリュームがバインドマウントになっている
+
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./php
+      dockerfile: dockerfile
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+  
+  db:
+    build:
+      context: ./mysql
+      dockerfile: dockerfile
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
