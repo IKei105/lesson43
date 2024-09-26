@@ -16,7 +16,7 @@ if ($mysqli->connect_error) {
 $fileName = 'pageviews-20211201-000000';
 $fp = fopen($fileName, 'r');
 
-
+$inportCount = 0;
 while( $read_str = fgets($fp) ) {
     $explodeStr =  explode(' ', $read_str);
 
