@@ -26,7 +26,8 @@ while( $read_str = fgets($fp) ) {
     $stmt->bind_param('ssii', $explodeStr[LANGUAGE], $explodeStr[PAGE_NAME], $explodeStr[REQUEST_TIME], $explodeStr[BYTES]);
 
     if ($stmt->execute()) {
-        echo "データの挿入が成功しました。";
+        $inportCount++;
+        echo $inportCount . PHP_EOL;
     } else {
         echo "エラー: " . $stmt->error;
     }
