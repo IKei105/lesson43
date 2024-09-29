@@ -9,8 +9,13 @@ RUN apt-get update \
     && docker-php-ext-enable xdebug
 
 # composer のインストール
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER 1
+
+# ファイルのコピー
+COPY ./src /var/www/html
+COPY ./docker/app/php.ini /usr/local/etc/php/php.ini
+COPY ./docker/app/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # お決まりの位置らしい
 WORKDIR /var/www/html
