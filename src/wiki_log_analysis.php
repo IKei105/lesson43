@@ -24,8 +24,9 @@ EOT;
     $stmt->bind_param('i', $limitNum);
     if ($stmt->execute()) {
         $result = $stmt->get_result();
-        while ($value = mysqli_fetch_assoc($result)) {
-            var_export($value);
+        while ($row = mysqli_fetch_assoc($result)) {
+            //echo "Page Name: " . $row['page_name'] . ", Language: " . $row['language'] . PHP_EOL;
+            echo '"' . $row['language'] . '","Main_page,"' .  $row['page_name'] . PHP_EOL;
         }
     } else {
         echo "エラー: " . $stmt->error;
@@ -37,18 +38,17 @@ EOT;
     SELECT language, page_name, request_times
     FROM wiki_log_2021_1201_12
     WHERE language = ?
-    LIMIT 5;
+    ORDER BY language
+    LIMIT 1;
 EOT;
     foreach($input as $domain) {
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param('s', $domain);
         if ($stmt->execute()) {
             $result = $stmt->get_result();
-            while ($resultArrays = mysqli_fetch_assoc($result)) {
-                var_export($resultArrays);
-            }
-            foreach ($resultArrays as $array) {
-                print_r($array[language] . PHP_EOL);
+            while ($row = mysqli_fetch_assoc($result)) {
+                //echo "Page Name: " . $row['page_name'] . ", Language: " . $row['language'] . PHP_EOL;
+                echo '"' . $row['language'] . '"' .  $row['request_times'] . PHP_EOL;
             }
         } else {
             echo "エラー: " . $stmt->error;
@@ -56,8 +56,6 @@ EOT;
     }
 }
 
-//入力した値によって分岐する、strだったらselect文に入れるし、数字だったらlimit の値に使う
-//ドメインだった場合 limiの数はcount(input)みたいな感じにする,explode()使わんといかんけどね
 mysqli_close($mysqli);
 
 function userInput(): array
@@ -67,6 +65,8 @@ function userInput(): array
     $input = explode(' ', trim(fgets(STDIN)));
     return $input;
 }
+
+
 
 
 
